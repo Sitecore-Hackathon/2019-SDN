@@ -28,7 +28,7 @@ namespace Hackathon.SDN.Feature.TranslationRibbon
 
                 Alert(result);
             }
-			catch (LanguageNotDifferentException)
+            catch (LanguageNotDifferentException)
             {
                 Alert(Translate.Text("TranslationRibbon_SameLanguageInfo"));
             }
@@ -39,8 +39,7 @@ namespace Hackathon.SDN.Feature.TranslationRibbon
             catch (Exception)
             {
                 Alert(Translate.Text("TranslationRibbon_GeneralErrorInfo"));
-				throw;
-            }
+                throw;
             }
         }
 
@@ -57,20 +56,17 @@ namespace Hackathon.SDN.Feature.TranslationRibbon
             return language;
         }
 
-        private bool GetIncludeSubItems(CommandContext context) {
-            var subItemsIncluded = context.Parameters["include_sub_items"];
-            if (subItemsIncluded.Equals("1"))
-            {
-                return true;
-            }
-
-        private Item GetSourceItem(CommandContext context)
+        private bool GetIncludeSubItems(CommandContext context)
         {
-            if (context.Items == null || context.Items.Any() == false) throw new NoContextItemFoundException();
+            var subItemsIncluded = context.Parameters["include_sub_items"];
+            if (subItemsIncluded.Equals("1")) return true;
 
             return false;
         }
 
+        private Item GetSourceItem(CommandContext context)
+        {
+            if (context.Items == null || context.Items.Any() == false) throw new NoContextItemFoundException();
 
             return context.Items.First();
         }
