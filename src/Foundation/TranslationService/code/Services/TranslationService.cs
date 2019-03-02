@@ -23,16 +23,12 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
         private readonly IEnumerable<Language> _allAvailableLanguages;
 
-        private readonly ITranslationProvider _translationProvider;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="translationProvider"></param>
+        public ITranslationProvider TranslationProvider { get; }
+        
         public TranslationService(ITranslationProvider translationProvider) {
             _masterDb = Factory.GetDatabase("master");
             _allAvailableLanguages = _masterDb.GetLanguages();
-            _translationProvider = translationProvider;
+            TranslationProvider = translationProvider;
         }
 
         /// <summary>
@@ -147,16 +143,12 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                     if (!FieldShouldBeTranslated(itemField)) {
                         continue;
                     }
-
-                    //if (itemField.Value.IsNullOrEmpty()) {
-                    //    continue; // skip empty fields
-                    //}
-
+                    
                     string translation;
                     if (FieldTypeManager.GetField(itemField) is TextField) {
-                        translation = _translationProvider.GetTranslatedContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
+                        translation = TranslationProvider.Translate(itemField.Value, sourceItem.Language, targetItem.Language);
                     } else if (FieldTypeManager.GetField(itemField) is HtmlField) {
-                        translation = GetTranslatedHtmlContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
+                        translation = GetTranslatedHtmlContent(itemField.Value, sourceItem.Language, targetItem.Language);
                     } else {
                         continue;
                     }
@@ -185,7 +177,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <param name="sourceLanguage">The source language</param>
         /// <param name="targetLanguage">The target language</param>
         /// <returns>The translated content</returns>
-        private string GetTranslatedHtmlContent(string sourceText, string sourceLanguage, string targetLanguage) {
+        private string GetTranslatedHtmlContent(string sourceText, Language sourceLanguage, Language targetLanguage) {
             var htmlDecodedSourceText = HttpUtility.HtmlDecode(sourceText);
             if (htmlDecodedSourceText == null) {
                 throw new Exception("htmlDecodedSourceText is null");
@@ -200,7 +192,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                 if (i + 4 <= toBeTranslatedList.Count) {
                     if (toBeTranslatedList[i + 1].StartsWith("<a") || toBeTranslatedList[i + 1].StartsWith("< a")) {
                         var text = toBeTranslatedList[i] + toBeTranslatedList[i + 1] + toBeTranslatedList[i + 2] + toBeTranslatedList[i + 3] + toBeTranslatedList[i + 4];
-                        var translation = _translationProvider.GetTranslatedContent(text, sourceLanguage, targetLanguage);
+                        var translation = TranslationProvider.Translate(text, sourceLanguage, targetLanguage);
                         translationString += translation;
                         i += 4;
                     }
@@ -208,7 +200,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                 if (toBeTranslatedList[i].StartsWith("<")) {
                     translationString += toBeTranslatedList[i];
                 } else {
-                    var translation = _translationProvider.GetTranslatedContent(toBeTranslatedList[i], sourceLanguage, targetLanguage);
+                    var translation = TranslationProvider.Translate(toBeTranslatedList[i], sourceLanguage, targetLanguage);
                     translationString += HttpUtility.HtmlEncode(translation);
                 }
             }

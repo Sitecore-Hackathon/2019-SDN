@@ -1,13 +1,13 @@
-﻿namespace Hackathon.SDN.Foundation.TranslationService.Providers {
-    public interface ITranslationProvider {
+﻿using Sitecore.Globalization;
 
-        /// <summary>
-        /// Get the translated content
-        /// </summary>
-        /// <param name="content"></param>
-        /// <param name="sourceLanguageCode"></param>
-        /// <param name="targetLanguageCode"></param>
-        /// <returns></returns>
-        string GetTranslatedContent(string content, string sourceLanguageCode, string targetLanguageCode);
+namespace Hackathon.SDN.Foundation.TranslationService.Providers {
+
+    public interface ITranslationProvider {
+        
+        string Translate(string text, Language sourceLanguage, Language targetLanguage);
+
+        bool CanTranslate(Language sourceLanguage, Language targetLanguage);
+
     }
+
 }

@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\TranslationFailureException.cs" />
     <Compile Include="Factories\TranslationServiceFactory.cs" />
+    <Compile Include="Factories\TranslationProviderFactory.cs" />
     <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\IsEmptyField.cs" />
     <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\ShouldBeTranslatedProperty.cs" />
     <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\IsFieldFromStandardTemplate.cs" />
