@@ -12,6 +12,7 @@ using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Globalization;
+using Sitecore.Jobs;
 using Sitecore.Pipelines;
 using Sitecore.SecurityModel;
 using Sitecore.StringExtensions;
@@ -27,12 +28,13 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
         public ITranslationProvider TranslationProvider { get; }
 
+        private Job Job { get; set; }
+
         public TranslationService(ITranslationProvider translationProvider) {
             _masterDb = Factory.GetDatabase("master");
             _allAvailableLanguages = _masterDb.GetLanguages();
             TranslationProvider = translationProvider;
         }
-
 
         /// <summary>
         /// Translate the item
@@ -40,11 +42,13 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <param name="sourceItem">The source item</param>
         /// <param name="targetLanguage">The target language</param>
         /// <param name="includeSubItems">returns if the sub items should be translated also</param>
+        /// <param name="job">The current job</param>
         /// <returns></returns>
         /// <exception cref="ItemIsNullException">Throw when item is null</exception>
         /// <exception cref="LanguageMissingException">Throw when target language is not set</exception>
         /// <exception cref="LanguageNotDifferentException">Throw when target language is the same as source language</exception>
-        public TranslationResult TranslateItem(Item sourceItem, Language targetLanguage, bool includeSubItems) {
+        public TranslationResult TranslateItem(Item sourceItem, Language targetLanguage, bool includeSubItems, Job job) {
+            Job = job;
 
             // Check input
             if (sourceItem == null) {
@@ -84,14 +88,18 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                 TranslateItemTextFields(sourceItem, targetItem);
 
                 result.SuccessfullyTranslated++;
+                Alert("Item translated successfully");
             } catch (ItemHasAlreadyTargetLanguageException) {
                 result.Skipped++;
+                Alert("Item skipped");
             } catch (ItemIsNullException) {
                 result.OccuredErrors++;
                 result.ItemsWithErrors.Add(sourceItem.ID);
+                Alert("Error occured");
             } catch (TranslationFailureException) {
                 result.OccuredErrors++;
                 result.ItemsWithErrors.Add(sourceItem.ID);
+                Alert("Error occured");
             }
 
             // Check if sub items should be translated too
@@ -103,6 +111,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                     } catch (ItemIsNullException) {
                         result.OccuredErrors++;
                         result.ItemsWithErrors.Add(childSourceItem.ID);
+                        Alert("Error occured");
                         continue;
                     }
                     TranslateItemRecursive(childSourceItem, targetChildItem, true, result);
@@ -235,5 +244,11 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         }
 
         #endregion
+
+        private void Alert(string message) {
+            if (Job != null && Job.Status != null) {
+                Job.Status.Messages?.Add(message);
+            }
+        }
     }
 }

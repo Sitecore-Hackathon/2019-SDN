@@ -9,32 +9,52 @@ using Sitecore;
 using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Globalization;
+using Sitecore.Jobs;
 using Sitecore.Shell.Framework.Commands;
+using Sitecore.Shell.Applications.Dialogs.ProgressBoxes;
+using Sitecore.Web.UI.Sheer;
 
 namespace Hackathon.SDN.Feature.TranslationRibbon {
+
     // ReSharper disable once UnusedMember.Global
     public class TranslateCommand : Command {
+
+        public string Result { get; set; }
+
         public override void Execute(CommandContext context) {
+            var targetLanguage = GetTargetLanguage(context);
+            var includeSubItems = GetIncludeSubItems(context);
+            var sourceItem = GetSourceItem(context);
+
+            var obj = new[] {
+                (object) sourceItem,
+                targetLanguage,
+                includeSubItems
+            };
+
+            ProgressBox.Execute("TranslateItem", "TranslateItem", TranslateItemAsyc, obj);
+
+            var isJobDone = JobManager.GetJobs().FirstOrDefault(j => j.Name.Equals("TranslateItem") && j.Status.State == JobState.Running);
+            if (isJobDone != null && !isJobDone.IsDone) {
+                SheerResponse.Timer("CheckTranslationStatus", 100);
+            } else {
+                Alert(Result);
+            }
+        }
+
+        public void TranslateItemAsyc(params object[] parameters) {
             try {
                 var translationService = TranslationServiceFactory.Create();
 
-                var targetLanguage = GetTargetLanguage(context);
-                var includeSubItems = GetIncludeSubItems(context);
+                var translationResult = translationService.TranslateItem((Item)parameters[0], (Language)parameters[1], (bool)parameters[2], Context.Job);
 
-                var sourceItem = GetSourceItem(context);
-
-                var translationResult = translationService.TranslateItem(sourceItem, targetLanguage, includeSubItems);
-
-                var resultOutput = GetResultOutput(translationResult);
-
-                Alert(resultOutput);
+                Result = GetResultOutput(translationResult);
             } catch (LanguageNotDifferentException) {
-                Alert(Translate.Text("TranslationRibbon_SameLanguageInfo"));
+                Result = Translate.Text("TranslationRibbon_SameLanguageInfo");
             } catch (ItemHasAlreadyTargetLanguageException) {
-                Alert(Translate.Text("TranslationRibbon_TargetLanguageAlreadyExistsInfo"));
+                Result = Translate.Text("TranslationRibbon_TargetLanguageAlreadyExistsInfo");
             } catch (Exception) {
-                Alert(Translate.Text("TranslationRibbon_GeneralErrorInfo"));
-                throw;
+                Result = Translate.Text("TranslationRibbon_GeneralErrorInfo");
             }
         }
 
