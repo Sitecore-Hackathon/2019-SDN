@@ -48,7 +48,8 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
             TranslateItem(sourceItem, targetItem, includeSubItems, includeRelatedItems);
 
-            return string.Empty; // TODO
+            return Translate.Text("TheItem") + " \"" + sourceItem.DisplayName + "\" " +
+                   Translate.Text("GotSuccessfullyTranslatedToLanguage") + " " + targetLanguage.GetDisplayName();
         }
 
         #region Translate curren item
