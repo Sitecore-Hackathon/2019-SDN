@@ -76,12 +76,6 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Foundation\TranslationService\code\Hackathon.SDN.Foundation.TranslationService.csproj">
-      <Project>{4471fdb0-dd5f-4f89-a5ea-6a8c97ea7e78}</Project>
-      <Name>TranslationService</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
