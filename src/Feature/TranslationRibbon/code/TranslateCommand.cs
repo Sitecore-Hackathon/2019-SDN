@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Hackathon.SDN.Feature.TranslationRibbon.Models;
+using Hackathon.SDN.Feature.TranslationRibbon.Exceptions;
 using Hackathon.SDN.Foundation.TranslationService.Exceptions;
 using Hackathon.SDN.Foundation.TranslationService.Factories;
 using Hackathon.SDN.Foundation.TranslationService.Models;

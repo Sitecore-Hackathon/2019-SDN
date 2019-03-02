@@ -79,9 +79,9 @@
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\LanguageCodeIsMissingException.cs" />
-    <Compile Include="Models\LanguageIsInvalidException.cs" />
-    <Compile Include="Models\NoContextItemFoundException.cs" />
+    <Compile Include="Exceptions\LanguageCodeIsMissingException.cs" />
+    <Compile Include="Exceptions\LanguageIsInvalidException.cs" />
+    <Compile Include="Exceptions\NoContextItemFoundException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TranslateCommand.cs" />
     <Compile Include="TranslationPanel.cs" />
