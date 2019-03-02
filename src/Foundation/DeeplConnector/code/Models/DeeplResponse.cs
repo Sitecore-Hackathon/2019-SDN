@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace DeeplConnector.Models
+namespace Hackathon.SDN.Foundation.DeeplConnector.Models
 {
     public class DeeplResponse {
 

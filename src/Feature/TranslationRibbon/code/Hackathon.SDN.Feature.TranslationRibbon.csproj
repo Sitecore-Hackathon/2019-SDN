@@ -87,7 +87,7 @@
     <Compile Include="TranslationPanel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Config\include\Feature\Feature.TranslationRibbon.config" />
+    <Content Include="App_Config\include\Feature\Feature.TranslationRibbon.config" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
@@ -98,7 +98,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Foundation\TranslationService\code\code\Hackathon.SDN.Foundation.TranslationService.csproj">
+    <ProjectReference Include="..\..\..\Foundation\TranslationService\code\Hackathon.SDN.Foundation.TranslationService.csproj">
       <Project>{87887824-82f1-4899-a289-dd61adae4740}</Project>
       <Name>Hackathon.SDN.Foundation.TranslationService</Name>
     </ProjectReference>
