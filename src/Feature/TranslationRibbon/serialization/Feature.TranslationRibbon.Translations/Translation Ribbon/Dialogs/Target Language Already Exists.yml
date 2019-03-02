@@ -1,0 +1,26 @@
+﻿---
+ID: "a08505c3-a8a2-40cb-9ed3-f8c07ca46b24"
+Parent: "525aca0e-210e-40c8-87f2-a597803b4ec5"
+Template: "6d1cd897-1936-4a3a-a511-289a94c2a7b1"
+Path: /sitecore/system/Dictionary/Modules/Translation Ribbon/Dialogs/Target Language Already Exists Dialog
+DB: core
+SharedFields:
+- ID: "580c75a8-c01a-4580-83cb-987776ceb3af"
+  Hint: Key
+  Value: TranslationRibbon_TargetLanguageAlreadyExistsInfo
+Languages:
+- Language: en
+  Fields:
+  - ID: "2ba3454a-9a9c-4cdf-a9f8-107fd484eb6e"
+    Hint: Phrase
+    Value: The target language has already an translation.
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20190302T185120Z
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\admin
