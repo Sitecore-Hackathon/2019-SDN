@@ -16,10 +16,11 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
                 var translationService = TranslationServiceFactory.Create();
 
                 var targetLanguage = GetTargetLanguage(context);
+                var includeSubItems = GetIncludeSubItems(context);
 
                 var sourceItem = GetSourceItem(context);
 
-                var result = translationService.TranslateItem(sourceItem, targetLanguage, false, false);
+                var result = translationService.TranslateItem(sourceItem, targetLanguage, false, includeSubItems);
 
                 Alert(result);
             } catch (Exception ex) {
@@ -42,6 +43,16 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
             }
 
             return language;
+        }
+
+        private bool GetIncludeSubItems(CommandContext context) {
+            var subItemsIncluded = context.Parameters["include_sub_items"];
+            if (subItemsIncluded.Equals("1"))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private Item GetSourceItem(CommandContext context) {

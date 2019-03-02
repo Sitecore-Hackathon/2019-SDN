@@ -29,25 +29,44 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
             }
 
             var sb = new StringBuilder();
+            
+            #region Build HTML
 
-            sb.Append("<div>");
-            sb.Append("<a id=\"deepl-button\" href=\"#\" class=\"scRibbonToolbarLargeButton\" title=\"Start Translation\" onclick=\"(function() { let lang = document.getElementById(\'translation-languages\').value;return scForm.invoke(\'Command:TranslateContent(language=\'+lang+\')\', event);})();\">");
-            sb.Append("<img src=\"/temp/iconcache/office/24x24/earth_location.png\" class=\"scRibbonToolbarLargeButtonIcon\" border=\"0\" />");
-            sb.Append($"<span class=\"header\">{Translate.Text("StartTranslation")}</span>");
-            sb.Append("</a>");
+            // Language Selector HTML
             sb.Append("<div style=\"display: inline-block; padding-left: 6px;\">");
-            sb.Append($"<p style=\"padding-top: 6px; padding-bottom: 6px;\">{Translate.Text("StartTranslation")}</p>");
+            sb.Append($"<p style=\"padding-top: 6px; padding-bottom: 6px;\">{Translate.Text("SelectTargetLanguage")}</p>");
             sb.Append("<select id=\"translation-languages\" style=\"width: 100%;\">");
 
             foreach (var language in _allAvailableLanguages) {
                 if (currentContextLanguage == null || language.CultureInfo.IetfLanguageTag.Equals(currentContextLanguage.CultureInfo.IetfLanguageTag)) {
                     continue; // Do not add the context language
                 }
-                sb.Append($"<option value=\"{language.Name.ToLower()}\">{language.CultureInfo.Name}</option>");
+                sb.Append($"<option value=\"{language.Name.ToLower()}\">{language.CultureInfo.DisplayName}</option>");
 
             }
 
-            sb.Append("</select></div></div>");
+            sb.Append("</select></div>");
+
+            // Button HTML
+            sb.Append("<div class=\"scRibbonToolbarLargeComboButton\">");
+            sb.Append("<a id=\"deepl-button\" href=\"#\" class=\"scRibbonToolbarLargeComboButtonTop\" title=\"" + Translate.Text("StartTranslation") + "\" onclick=\"(function() { let lang = document.getElementById(\'translation-languages\').value;return scForm.invoke(\'Command:TranslateContent(language=\'+ lang + \', include_sub_items=0)\', event);})();\">");
+            sb.Append("<img src=\"/temp/iconcache/office/24x24/earth_location.png\" class=\"scRibbonToolbarLargeButtonIcon\" border=\"0\" />");
+            sb.Append("</a>");
+            sb.Append("<a id=\"deepl-button\" href=\"#\" class=\"scRibbonToolbarLargeComboButtonBottom\" title=\"Start Translation\" onclick=\"javascript:return scContent.showMenu(this,event,'translations_menu')\">");
+            sb.Append($"<span class=\"header\">{Translate.Text("StartTranslation")}</span><img src=\"/sitecore/shell/themes/standard/Images/ribbondropdown.gif\" class=\"scRibbonToolbarLargeComboButtonGlyph\" alt=\"\" border=\"0\" />");
+            sb.Append("<table id=\"translations_menu\" class=\"scMenu\" style=\"display:none;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
+            sb.Append("<tbody>");
+            sb.Append("<tr id=\"menu_id_1\" onmouseover=\"javascript:return scForm.rollOver(this,event)\" onfocus=\"javascript:return scForm.rollOver(this,event)\" onmouseout=\"javascript:return scForm.rollOver(this,event)\" onblur=\"javascript:return scForm.rollOver(this,event)\" onclick=\"(function() { let lang = document.getElementById(\'translation-languages\').value;return scForm.invoke(\'Command:TranslateContent(language=\' + lang + \', include_sub_items=1)\', event);})();\">");
+            sb.Append("<td class=\"scMenuItemIcon\"><img src=\"/temp/iconcache/office/24x24/earth_location.png\" width=\"16\" height=\"16\" align=\"middle\" class=\"\" alt=\"\" border=\"0\"></td>");
+            sb.Append($"<td class=\"scMenuItemCaption\">{Translate.Text("TranslateItemIncludingSubItems")}</td>");
+            sb.Append("<td class=\"scMenuItemHotkey\"><img src=\"/sitecore/images/blank.gif\" width=\"1\" height=\"1\" class=\"scSpacer\" alt=\"\" border=\"0\"></td>");
+            sb.Append("</tr>");
+            sb.Append("</tbody>");
+            sb.Append("</table>");
+            sb.Append("</a>");
+            sb.Append("</div>");
+            
+            #endregion
 
             var htmlOutput = sb.ToString();
 
@@ -55,3 +74,5 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
         }
     }
 }
+
+
