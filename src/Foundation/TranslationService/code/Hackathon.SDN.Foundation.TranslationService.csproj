@@ -82,6 +82,11 @@
   <ItemGroup>
     <Compile Include="Exceptions\TranslationFailureException.cs" />
     <Compile Include="Factories\TranslationServiceFactory.cs" />
+    <Compile Include="Factories\TranslationProviderFactory.cs" />
+    <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\IsEmptyField.cs" />
+    <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\ShouldBeTranslatedProperty.cs" />
+    <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\IsFieldFromStandardTemplate.cs" />
+    <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\FieldShouldBeTranslatedPipelineArgs.cs" />
     <Compile Include="Providers\ITranslationProvider.cs" />
     <Compile Include="Services\ITranslationService.cs" />
     <Compile Include="Exceptions\ItemHasAlreadyTargetLanguageException.cs" />

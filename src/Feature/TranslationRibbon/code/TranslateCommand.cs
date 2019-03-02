@@ -25,6 +25,7 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
                 Alert(result);
             } catch (Exception ex) {
                 Alert("Error while translating the item");
+                throw;
                 // TODO: Logging and handling of all possible exceptions
             }
         }

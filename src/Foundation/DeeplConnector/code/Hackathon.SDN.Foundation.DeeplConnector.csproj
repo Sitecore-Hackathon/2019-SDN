@@ -87,6 +87,7 @@
     <Compile Include="Models\Translation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\DeeplTranslationProvider.cs" />
+    <Compile Include="SupportedLanguages.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Include\Foundation\Foundation.DeeplConnector.config" />
