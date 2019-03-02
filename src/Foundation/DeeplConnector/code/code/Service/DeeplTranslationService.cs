@@ -2,11 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Net;
-using DeeplConnector.Models;
+using Hackathon.SDN.Foundation.DeeplConnector.Models;
+using Hackathon.SDN.Foundation.TranslationService.Interface;
 using Newtonsoft.Json;
-using TranslationService.Interface;
 
-namespace DeeplConnector.Services {
+namespace Hackathon.SDN.Foundation.DeeplConnector.Service {
 
     public class DeeplTranslationService : ITranslationProviderService {
 

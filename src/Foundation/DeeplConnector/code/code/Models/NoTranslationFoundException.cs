@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DeeplConnector.Models {
+namespace Hackathon.SDN.Foundation.DeeplConnector.Models {
     public class NoTranslationFoundException : Exception {
     }
 }

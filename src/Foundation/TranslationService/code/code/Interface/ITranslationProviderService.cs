@@ -1,4 +1,4 @@
-﻿namespace TranslationService.Interface {
+﻿namespace Hackathon.SDN.Foundation.TranslationService.Interface {
     public interface ITranslationProviderService {
 
         /// <summary>
