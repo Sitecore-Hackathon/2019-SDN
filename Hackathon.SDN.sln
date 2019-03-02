@@ -29,10 +29,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{D27C83
 		documentation\images\hackathon.png = documentation\images\hackathon.png
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrap", "Bootstrap", "{6CAA92BD-1D01-4E3B-98BF-F0D4879C9C72}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.Bootstrap", "src\Foundation\Bootstrap\Hackathon.SDN.Foundation.Bootstrap\Hackathon.SDN.Foundation.Bootstrap.csproj", "{61BA6CC2-5A47-4F03-B75F-798B5D495EAB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{C780B955-0693-4A70-86B2-D120A939029D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.Data", "src\Foundation\Data\Hackathon.SDN.Foundation.Data\Hackathon.SDN.Foundation.Data.csproj", "{F25AB760-8C5C-4B48-AAB4-645368FE26F3}"
@@ -55,10 +51,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{61BA6CC2-5A47-4F03-B75F-798B5D495EAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61BA6CC2-5A47-4F03-B75F-798B5D495EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61BA6CC2-5A47-4F03-B75F-798B5D495EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61BA6CC2-5A47-4F03-B75F-798B5D495EAB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F25AB760-8C5C-4B48-AAB4-645368FE26F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F25AB760-8C5C-4B48-AAB4-645368FE26F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F25AB760-8C5C-4B48-AAB4-645368FE26F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,8 +73,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D27C83D2-2EAF-4E44-A1ED-2B3C2EBB5854} = {DAFED8F5-6CBD-4384-AAD6-DC3BCCF24911}
-		{6CAA92BD-1D01-4E3B-98BF-F0D4879C9C72} = {4FDA1DCD-D33E-447E-91C1-F4AE818E2CF0}
-		{61BA6CC2-5A47-4F03-B75F-798B5D495EAB} = {6CAA92BD-1D01-4E3B-98BF-F0D4879C9C72}
 		{C780B955-0693-4A70-86B2-D120A939029D} = {4FDA1DCD-D33E-447E-91C1-F4AE818E2CF0}
 		{F25AB760-8C5C-4B48-AAB4-645368FE26F3} = {C780B955-0693-4A70-86B2-D120A939029D}
 		{7917220B-5E4A-4277-8FC1-E49E7BB74E95} = {4FDA1DCD-D33E-447E-91C1-F4AE818E2CF0}
