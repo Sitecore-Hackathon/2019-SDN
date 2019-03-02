@@ -135,7 +135,25 @@ public class FieldShouldBeTranslatedPipelineArgs : PipelineArgs {
   }
 ```
 
-To disable translation of a field, simply set the `ShouldBeTranslated` to false.
+To disable translation of a field, simply set the `ShouldBeTranslated` property to false.
+
+To add a custom check, simple add a processor to the `fieldShouldBeTranslated` pipeline:
+```xml
+<?xml version="1.0"?>
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
+    <sitecore>
+        <pipelines>
+            <group name="contentTranslator" groupName="contentTranslator">
+                <pipelines>
+                    <fieldShouldBeTranslated>
+                        <processor type="YourAssembly.YourCheckClass, YourAssembly" />
+                    </fieldShouldBeTranslated>
+                </pipelines>
+            </group>
+        </pipelines>
+    </sitecore>
+</configuration>
+```
 
 **Please note** that the `ShouldBeTranslated` property has a default value of `true`, which means translation is enabled for all fields and needs to be explicitly disabled (although the three built-in processors already catch all common cases).
 
