@@ -40,10 +40,9 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
 
         private Language GetTargetLanguage(CommandContext context) {
             var languageCode = context.Parameters["language"];
-            if (string.IsNullOrEmpty(languageCode)) throw new Exception("language parameter ist empty");
+            if (string.IsNullOrEmpty(languageCode)) throw new LanguageMissingException();
 
-            Language language;
-            Language.TryParse(languageCode, out language);
+            Language.TryParse(languageCode, out Language language);
 
             if (language == null) throw new LanguageIsInvalidException();
 
