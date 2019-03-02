@@ -1,0 +1,22 @@
+﻿---
+ID: "5d1478cf-4d4a-4f50-948a-a2453fab098c"
+Parent: "8ce4a991-aa4c-43d2-ab3d-34cc3cd95f09"
+Template: "3619f992-4177-4124-89dd-dabfc2baf6bb"
+Path: /sitecore/content/Applications/Content Editor/Ribbons/Chunks/Translation/Translation Panel
+DB: core
+SharedFields:
+- ID: "c78d9b41-ffeb-402d-93e8-e1270d8bb787"
+  Hint: Type
+  Value: Hackathon.SDN.Feature.TranslationRibbon.TranslationPanel
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20190302T145953Z
+    - ID: "5dd74568-4d4b-44c1-b513-0af5f4cda34f"
+      Hint: __Created by
+      Value: |
+        sitecore\Admin
