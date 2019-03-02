@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web;
 using Hackathon.SDN.Foundation.TranslationService.Interface;
 using Hackathon.SDN.Foundation.TranslationService.Models;
 using Sitecore.Configuration;
@@ -16,7 +19,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Service {
 
         private readonly Database _masterDb;
 
-        private IEnumerable<Language> _allAvailableLanguages;
+        private readonly IEnumerable<Language> _allAvailableLanguages;
 
         private readonly ITranslationProviderService _translationProviderService;
 
@@ -44,43 +47,29 @@ namespace Hackathon.SDN.Foundation.TranslationService.Service {
 
             var targetItem = GetTargetItemInLanguage(sourceItem.ID, targetLanguage);
 
-            TranslateCurrentItem(sourceItem, targetItem);
-
-            if (includeRelatedItems) {
-                TranslateRelatedItems(sourceItem, targetItem);
-            }
-
-            if (includeSubItems) {
-                TranslateSubItems(sourceItem, targetItem);
-            }
+            TranslateItem(sourceItem, targetItem, includeSubItems, includeRelatedItems);
 
             return string.Empty; // TODO
         }
 
-        #region TranslateItem
+        #region Translate curren item
 
-        private void TranslateCurrentItem(Item sourceItem, Item targetItem) {
+        private void TranslateItem(Item sourceItem, Item targetItem, bool includeSubItems, bool includeRelatedItems) {
 
             PrepareTargetItem(targetItem);
 
             TranslateItemFields(sourceItem, targetItem);
 
-        }
+            // Check if sub items should be translated too
+            if (includeSubItems && sourceItem.Children.Any()) {
+                foreach (Item childSourceItem in sourceItem.Children) {
+                    var targetChildItem = GetTargetItemInLanguage(childSourceItem.ID, targetItem.Language);
 
-        #endregion
+                    TranslateItem(childSourceItem, targetChildItem, true, false);
+                }
+            }
 
-        #region Translate related items
-
-        private void TranslateRelatedItems(Item sourceItem, Item targetItem) {
-            // Not yet implemented
-        }
-
-        #endregion
-
-        #region Translate sub items
-
-        private void TranslateSubItems(Item sourceItem, Item targetItem) {
-            // Not yet implemented
+            // 
         }
 
         #endregion
@@ -118,7 +107,6 @@ namespace Hackathon.SDN.Foundation.TranslationService.Service {
 
         #endregion
 
-
         #region Translate item fields
 
 
@@ -146,7 +134,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Service {
                     if (FieldTypeManager.GetField(itemField) is TextField) {
                         translation = _translationProviderService.GetTranslatedContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
                     } else if (FieldTypeManager.GetField(itemField) is HtmlField) {
-                        translation = _translationProviderService.GetTranslatedContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
+                        translation = GetTranslatedHtmlContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
                     } else {
                         continue;
                     }
@@ -170,6 +158,49 @@ namespace Hackathon.SDN.Foundation.TranslationService.Service {
             Sitecore.Diagnostics.Assert.IsNotNull(template, "template");
 
             return template.ContainsField(field.ID);
+        }
+
+        /// <summary>
+        /// Returns translated html content
+        /// </summary>
+        /// <param name="sourceText"></param>
+        /// <param name="sourceLanguage"></param>
+        /// <param name="targetLanguage"></param>
+        /// <returns></returns>
+        private string GetTranslatedHtmlContent(string sourceText, string sourceLanguage, string targetLanguage) {
+            var htmlDecodedSourceText = HttpUtility.HtmlDecode(sourceText);
+            if (htmlDecodedSourceText == null) {
+                throw new Exception("htmlDecodedSourceText is null");
+            }
+
+            htmlDecodedSourceText = htmlDecodedSourceText.Replace("\n", "");
+
+            var toBeTranslatedList = Regex.Split(htmlDecodedSourceText, @"(<.*?>)").Where(t => !t.Equals(string.Empty)).ToList();
+            var translationString = string.Empty;
+
+            for (var i = 0; i < toBeTranslatedList.Count; i++) {
+                if (i + 4 <= toBeTranslatedList.Count) {
+                    if (toBeTranslatedList[i + 1].StartsWith("<a") || toBeTranslatedList[i + 1].StartsWith("< a")) {
+                        var text = HttpUtility.UrlEncode(toBeTranslatedList[i])
+                                   + toBeTranslatedList[i + 1]
+                                   + HttpUtility.UrlEncode(toBeTranslatedList[i + 2])
+                                   + toBeTranslatedList[i + 3]
+                                   + HttpUtility.UrlEncode(toBeTranslatedList[i + 4]);
+                        var translation = _translationProviderService.GetTranslatedContent(text, sourceLanguage, targetLanguage);
+                        translationString += translation;
+                        i += 4;
+                    }
+                }
+                if (toBeTranslatedList[i].StartsWith("<")) {
+                    translationString += toBeTranslatedList[i];
+                } else {
+                    var urlEncodedText = HttpUtility.UrlEncode(toBeTranslatedList[i]);
+                    var translation = _translationProviderService.GetTranslatedContent(urlEncodedText, sourceLanguage, targetLanguage);
+                    translationString += HttpUtility.HtmlEncode(translation);
+                }
+            }
+
+            return translationString;
         }
 
         #endregion
