@@ -1,0 +1,18 @@
+﻿---
+ID: "5fc2e3e2-0ceb-4b4e-be0f-5ae2aa8303b0"
+Parent: "bca56d9f-6789-4054-8a11-c784252b3ba4"
+Template: "a87a00b1-e6db-45ab-8b54-636fec3b5523"
+Path: /sitecore/system/Dictionary/Modules/Translation Ribbon/Ribbons
+DB: core
+SharedFields:
+- ID: "06d5295c-ed2f-4a54-9bf2-26228d113318"
+  Hint: __Icon
+  Value: Office/16x16/tab_pane.png
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20190302T182130Z

@@ -1,0 +1,18 @@
+﻿---
+ID: "525aca0e-210e-40c8-87f2-a597803b4ec5"
+Parent: "bca56d9f-6789-4054-8a11-c784252b3ba4"
+Template: "267d9ac7-5d85-4e9d-af89-99ab296cc218"
+Path: /sitecore/system/Dictionary/Modules/Translation Ribbon/Dialogs
+DB: core
+SharedFields:
+- ID: "06d5295c-ed2f-4a54-9bf2-26228d113318"
+  Hint: __Icon
+  Value: office/16x16/window_dialog.png
+Languages:
+- Language: en
+  Versions:
+  - Version: 1
+    Fields:
+    - ID: "25bed78c-4957-4165-998a-ca1b52f67497"
+      Hint: __Created
+      Value: 20190302T184007Z

@@ -31,6 +31,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
             TranslationProvider = translationProvider;
         }
 
+
         /// <summary>
         /// Translate the item
         /// </summary>
@@ -38,6 +39,9 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <param name="targetLanguage">The target language</param>
         /// <param name="includeSubItems">returns if the sub items should be translated also</param>
         /// <returns></returns>
+        /// <exception cref="ItemIsNullException">Throw when item is null</exception>
+        /// <exception cref="LanguageMissingException">Throw when target language is not set</exception>
+        /// <exception cref="LanguageNotDifferentException">Throw when target language is the same as source language</exception>
         public string TranslateItem(Item sourceItem, Language targetLanguage, bool includeSubItems) {
 
             // Check input
