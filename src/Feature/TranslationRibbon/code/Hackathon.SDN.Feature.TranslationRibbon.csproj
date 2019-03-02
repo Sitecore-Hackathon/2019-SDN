@@ -69,6 +69,7 @@
     <Compile Include="Models\LanguageIsInvalidException.cs" />
     <Compile Include="TranslateCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TranslationPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
