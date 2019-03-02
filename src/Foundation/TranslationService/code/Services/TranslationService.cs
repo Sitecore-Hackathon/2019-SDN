@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using Hackathon.SDN.Foundation.TranslationService.Exceptions;
@@ -24,7 +25,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         private readonly IEnumerable<Language> _allAvailableLanguages;
 
         public ITranslationProvider TranslationProvider { get; }
-        
+
         public TranslationService(ITranslationProvider translationProvider) {
             _masterDb = Factory.GetDatabase("master");
             _allAvailableLanguages = _masterDb.GetLanguages();
@@ -55,7 +56,9 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
             var targetItem = GetTargetItemInLanguage(sourceItem.ID, targetLanguage);
 
-            TranslateItem(sourceItem, targetItem, includeSubItems);
+            var sb = new StringBuilder();
+
+            TranslateItemRecursive(sourceItem, targetItem, includeSubItems, sb);
 
             return Translate.Text("TheItem") + " \"" + sourceItem.DisplayName + "\" " +
                    Translate.Text("GotSuccessfullyTranslatedToLanguage") + " " + targetLanguage.CultureInfo.DisplayName;
@@ -69,19 +72,38 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <param name="sourceItem"></param>
         /// <param name="targetItem"></param>
         /// <param name="includeSubItems"></param>
-        /// <param name="includeRelatedItems"></param>
-        private void TranslateItem(Item sourceItem, Item targetItem, bool includeSubItems) {
+        /// <param name="sb"></param>
+        private void TranslateItemRecursive(Item sourceItem, Item targetItem, bool includeSubItems, StringBuilder sb) {
+            try {
+                PrepareTargetItem(targetItem);
 
-            PrepareTargetItem(targetItem);
+                TranslateItemTextFields(sourceItem, targetItem);
 
-            TranslateItemTextFields(sourceItem, targetItem);
+                sb.AppendLine($"Item {sourceItem.DisplayName} translated successfully.");
+            } catch (ItemHasAlreadyTargetLanguageException) {
+                sb.AppendLine($"Item {sourceItem.DisplayName} skipped because it has already a language version.");
+            } catch (ItemIsNullException) {
+                sb.AppendLine($"Item {sourceItem.DisplayName} not translated because item could not be loaded.");
+            } catch (LanguageDidNotExistException) {
+                sb.AppendLine($"Item {sourceItem.DisplayName} not translated because of incorrect language.");
+            } catch (TranslationFailureException) {
+                sb.AppendLine($"Item {sourceItem.DisplayName} not translated because of a translation failure.");
+            }
 
             // Check if sub items should be translated too
             if (includeSubItems && sourceItem.Children.Any()) {
                 foreach (Item childSourceItem in sourceItem.Children) {
-                    var targetChildItem = GetTargetItemInLanguage(childSourceItem.ID, targetItem.Language);
-
-                    TranslateItem(childSourceItem, targetChildItem, true);
+                    Item targetChildItem;
+                    try {
+                        targetChildItem = GetTargetItemInLanguage(childSourceItem.ID, targetItem.Language);
+                    } catch (ItemIsNullException) {
+                        sb.AppendLine($"Item {childSourceItem.DisplayName} not translated because item could not be loaded.");
+                        continue;
+                    } catch (LanguageDidNotExistException) {
+                        sb.AppendLine($"Item {childSourceItem.DisplayName} not translated because of incorrect language.");
+                        continue;
+                    }
+                    TranslateItemRecursive(childSourceItem, targetChildItem, true, sb);
                 }
             }
         }
@@ -98,7 +120,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <returns>The item in target language</returns>
         private Item GetTargetItemInLanguage(ID itemId, Language targetLanguage) {
             if (_allAvailableLanguages.Any(x => x.CultureInfo.IetfLanguageTag.Equals(targetLanguage.CultureInfo.IetfLanguageTag)) == false) {
-                throw new ItemHasAlreadyTargetLanguageException();
+                throw new LanguageDidNotExistException();
             }
 
             var item = _masterDb.GetItem(itemId, targetLanguage);
@@ -145,7 +167,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                     if (!FieldShouldBeTranslated(itemField)) {
                         continue;
                     }
-                    
+
                     string translation;
                     if (FieldTypeManager.GetField(itemField) is TextField) {
                         translation = TranslationProvider.Translate(itemField.Value, sourceItem.Language, targetItem.Language);
@@ -163,7 +185,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
             }
         }
-        
+
         private static bool FieldShouldBeTranslated(Field field) {
             var args = new FieldShouldBeTranslatedPipelineArgs(field);
 
