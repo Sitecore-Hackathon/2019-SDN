@@ -6,7 +6,7 @@ using Sitecore.Shell.Framework.Commands;
 using Sitecore.Shell.Web.UI.WebControls;
 using Sitecore.Web.UI.WebControls.Ribbons;
 
-namespace TranslationRibbon {
+namespace Hackathon.SDN.Feature.TranslationRibbon {
     public class TranslationPanel : RibbonPanel {
 
         public override void Render(HtmlTextWriter output, Ribbon ribbon, Item button, CommandContext context) {

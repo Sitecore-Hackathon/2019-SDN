@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.DeeplConnector", "src\Foundation\DeeplConnector\code\code\Hackathon.SDN.Foundation.DeeplConnector.csproj", "{2863609D-51EB-400C-AECF-D51BC2812F60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Feature.TranslationRibbon", "src\Feature\TranslationRibbon\code\code\Hackathon.SDN.Feature.TranslationRibbon.csproj", "{10CCF013-DEAA-4686-A5D1-37A2069466FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Feature.TranslationRibbon", "src\Feature\TranslationRibbon\code\Hackathon.SDN.Feature.TranslationRibbon.csproj", "{10CCF013-DEAA-4686-A5D1-37A2069466FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

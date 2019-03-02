@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
+using Hackathon.SDN.Feature.TranslationRibbon.Models;
+using Hackathon.SDN.Foundation.TranslationService.Interface;
 using Sitecore;
 using Sitecore.Data.Items;
 using Sitecore.Globalization;
-using Sitecore.Shell.Applications.Dialogs.Alert;
 using Sitecore.Shell.Framework.Commands;
-using TranslationRibbon.Models;
-using TranslationService.Interface;
 
-namespace TranslationRibbon {
+namespace Hackathon.SDN.Feature.TranslationRibbon {
     public class TranslateCommand : Command {
 
         private readonly ITranslationService _translationService;
