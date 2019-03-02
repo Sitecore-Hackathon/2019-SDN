@@ -39,9 +39,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TranslationRibbon", "Transl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.Data", "src\Foundation\Data\code\Hackathon.SDN.Foundation.Data.csproj", "{F25AB760-8C5C-4B48-AAB4-645368FE26F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.TranslationService", "src\Foundation\TranslationService\code\code\Hackathon.SDN.Foundation.TranslationService.csproj", "{87887824-82F1-4899-A289-DD61ADAE4740}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.TranslationService", "src\Foundation\TranslationService\code\Hackathon.SDN.Foundation.TranslationService.csproj", "{87887824-82F1-4899-A289-DD61ADAE4740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.DeeplConnector", "src\Foundation\DeeplConnector\code\code\Hackathon.SDN.Foundation.DeeplConnector.csproj", "{2863609D-51EB-400C-AECF-D51BC2812F60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.DeeplConnector", "src\Foundation\DeeplConnector\code\Hackathon.SDN.Foundation.DeeplConnector.csproj", "{2863609D-51EB-400C-AECF-D51BC2812F60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Feature.TranslationRibbon", "src\Feature\TranslationRibbon\code\Hackathon.SDN.Feature.TranslationRibbon.csproj", "{10CCF013-DEAA-4686-A5D1-37A2069466FC}"
 EndProject

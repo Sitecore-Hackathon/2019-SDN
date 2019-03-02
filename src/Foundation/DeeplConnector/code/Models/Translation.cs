@@ -1,12 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace DeeplConnector.Models {
-
+﻿namespace Hackathon.SDN.Foundation.DeeplConnector.Models {
     public class Translation {
 
-        [JsonProperty(PropertyName = "text")]
+        public string Detected_source_language { get; set; }
         public string Text { get; set; }
-
     }
-
 }

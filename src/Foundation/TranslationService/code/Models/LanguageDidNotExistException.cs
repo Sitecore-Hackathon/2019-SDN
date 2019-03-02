@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TranslationService.Models {
+namespace Hackathon.SDN.Foundation.TranslationService.Models {
     public class LanguageDidNotExistException : Exception {
     }
 }

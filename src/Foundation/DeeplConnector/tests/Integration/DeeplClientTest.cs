@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using AutoFixture.Xunit2;
-using DeeplConnector;
-using DeeplConnector.Models;
+using Hackathon.SDN.Foundation.DeeplConnector;
+using Hackathon.SDN.Foundation.DeeplConnector.Models;
 using FluentAssertions;
 using Hackathon.SDN.Foundation.DeeplConnector.Tests.Models;
 using Newtonsoft.Json;

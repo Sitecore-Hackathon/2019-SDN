@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Hackathon.SDN.Foundation.TranslationService.Interface;
+using Hackathon.SDN.Foundation.TranslationService.Models;
 using Sitecore.Configuration;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
@@ -7,10 +9,8 @@ using Sitecore.Data.Items;
 using Sitecore.Globalization;
 using Sitecore.SecurityModel;
 using Sitecore.StringExtensions;
-using TranslationService.Interface;
-using TranslationService.Models;
 
-namespace TranslationService.Service {
+namespace Hackathon.SDN.Foundation.TranslationService.Service {
 
     public class TranslationService : ITranslationService {
 
