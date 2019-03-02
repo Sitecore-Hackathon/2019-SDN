@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using Sitecore.Configuration;
@@ -22,6 +23,11 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
         }
 
         public override void Render(HtmlTextWriter output, Ribbon ribbon, Item button, CommandContext context) {
+            Language currentContextLanguage = null;
+            if (context.Items != null && context.Items.Any()) {
+                currentContextLanguage = context.Items.First().Language;
+            }
+
             var sb = new StringBuilder();
 
             sb.Append("<div>");
@@ -34,7 +40,11 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
             sb.Append("<select id=\"translation-languages\" style=\"width: 100%;\">");
 
             foreach (var language in _allAvailableLanguages) {
-                sb.Append($"<option value=\"{language.Name.ToLower()}\">{language.CultureInfo.DisplayName}</option>");
+                if (currentContextLanguage == null || language.CultureInfo.IetfLanguageTag.Equals(currentContextLanguage.CultureInfo.IetfLanguageTag)) {
+                    continue; // Do not add the context language
+                }
+                sb.Append($"<option value=\"{language.Name.ToLower()}\">{language.CultureInfo.Name}</option>");
+
             }
 
             sb.Append("</select></div></div>");
