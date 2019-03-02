@@ -13,7 +13,7 @@ namespace TranslationRibbon {
             var sb = new StringBuilder();
 
             sb.Append("<div>");
-            sb.Append("<a id=\"deepl-button\" href=\"#\" class=\"scRibbonToolbarLargeButton\" title=\"Start Translation\" onclick=\"(function() { let lang = document.getElementById(\'translation-languages\').value;return scForm.invoke(\'Command:TranslateItem(language=\'+lang+\')\', event);})();\">");
+            sb.Append("<a id=\"deepl-button\" href=\"#\" class=\"scRibbonToolbarLargeButton\" title=\"Start Translation\" onclick=\"(function() { let lang = document.getElementById(\'translation-languages\').value;return scForm.invoke(\'Command:TranslateContent(language=\'+lang+\')\', event);})();\">");
             sb.Append("<img src=\"/temp/iconcache/office/24x24/earth_location.png\" class=\"scRibbonToolbarLargeButtonIcon\" border=\"0\" />");
             sb.Append($"<span class=\"header\">{Translate.Text("StartTranslation")}</span>");
             sb.Append("</a>");

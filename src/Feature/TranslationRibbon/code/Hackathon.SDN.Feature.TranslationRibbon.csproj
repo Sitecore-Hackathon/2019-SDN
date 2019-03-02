@@ -72,6 +72,7 @@
     <Compile Include="TranslationPanel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App_Config\Include\Feature\Feature.TranslationRibbon.config" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
   </ItemGroup>
