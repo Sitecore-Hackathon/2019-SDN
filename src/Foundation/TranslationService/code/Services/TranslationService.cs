@@ -25,12 +25,24 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
         private readonly ITranslationProvider _translationProvider;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="translationProvider"></param>
         public TranslationService(ITranslationProvider translationProvider) {
             _masterDb = Factory.GetDatabase("master");
             _allAvailableLanguages = _masterDb.GetLanguages();
             _translationProvider = translationProvider;
         }
-        
+
+        /// <summary>
+        /// Translate the item
+        /// </summary>
+        /// <param name="sourceItem">The source item</param>
+        /// <param name="targetLanguage">The target language</param>
+        /// <param name="includeRelatedItems">returns if the related items should be translated also</param>
+        /// <param name="includeSubItems">returns if the sub items should be translated also</param>
+        /// <returns></returns>
         public string TranslateItem(Item sourceItem, Language targetLanguage, bool includeRelatedItems, bool includeSubItems) {
 
             // Check input
@@ -50,7 +62,8 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
             TranslateItem(sourceItem, targetItem, includeSubItems, includeRelatedItems);
 
-            return string.Empty; // TODO
+            return Translate.Text("TheItem") + " \"" + sourceItem.DisplayName + "\" " +
+                   Translate.Text("GotSuccessfullyTranslatedToLanguage") + " " + targetLanguage.GetDisplayName();
         }
 
         #region Translate curren item
@@ -59,24 +72,32 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
             PrepareTargetItem(targetItem);
 
-            TranslateItemFields(sourceItem, targetItem);
+            TranslateItemTextFields(sourceItem, targetItem);
 
             // Check if sub items should be translated too
             if (includeSubItems && sourceItem.Children.Any()) {
                 foreach (Item childSourceItem in sourceItem.Children) {
                     var targetChildItem = GetTargetItemInLanguage(childSourceItem.ID, targetItem.Language);
 
-                    TranslateItem(childSourceItem, targetChildItem, true, false);
+                    TranslateItem(childSourceItem, targetChildItem, true, includeRelatedItems);
                 }
             }
 
-            // 
+            if (includeRelatedItems) {
+                TranslateRelatedItems(sourceItem, targetItem);
+            }
         }
 
         #endregion
 
         #region Target item helper methods
 
+        /// <summary>
+        /// Returns the item in target language
+        /// </summary>
+        /// <param name="itemId">The item Id</param>
+        /// <param name="targetLanguage">The target language</param>
+        /// <returns>The item in target language</returns>
         private Item GetTargetItemInLanguage(ID itemId, Language targetLanguage) {
             if (_allAvailableLanguages.Any(x => x.CultureInfo.IetfLanguageTag.Equals(targetLanguage.CultureInfo.IetfLanguageTag)) == false) {
                 throw new ItemHasAlreadyTargetLanguageException();
@@ -114,9 +135,9 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <summary>
         /// Translate the item fields
         /// </summary>
-        /// <param name="sourceItem"></param>
-        /// <param name="targetItem"></param>
-        private void TranslateItemFields(Item sourceItem, Item targetItem) {
+        /// <param name="sourceItem">The source item</param>
+        /// <param name="targetItem">The target item</param>
+        private void TranslateItemTextFields(Item sourceItem, Item targetItem) {
 
             using (new SecurityDisabler())
             using (new BulkUpdateContext())
@@ -160,10 +181,10 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <summary>
         /// Returns translated html content
         /// </summary>
-        /// <param name="sourceText"></param>
-        /// <param name="sourceLanguage"></param>
-        /// <param name="targetLanguage"></param>
-        /// <returns></returns>
+        /// <param name="sourceText">The source text</param>
+        /// <param name="sourceLanguage">The source language</param>
+        /// <param name="targetLanguage">The target language</param>
+        /// <returns>The translated content</returns>
         private string GetTranslatedHtmlContent(string sourceText, string sourceLanguage, string targetLanguage) {
             var htmlDecodedSourceText = HttpUtility.HtmlDecode(sourceText);
             if (htmlDecodedSourceText == null) {
@@ -178,11 +199,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
             for (var i = 0; i < toBeTranslatedList.Count; i++) {
                 if (i + 4 <= toBeTranslatedList.Count) {
                     if (toBeTranslatedList[i + 1].StartsWith("<a") || toBeTranslatedList[i + 1].StartsWith("< a")) {
-                        var text = HttpUtility.UrlEncode(toBeTranslatedList[i])
-                                   + toBeTranslatedList[i + 1]
-                                   + HttpUtility.UrlEncode(toBeTranslatedList[i + 2])
-                                   + toBeTranslatedList[i + 3]
-                                   + HttpUtility.UrlEncode(toBeTranslatedList[i + 4]);
+                        var text = toBeTranslatedList[i] + toBeTranslatedList[i + 1] + toBeTranslatedList[i + 2] + toBeTranslatedList[i + 3] + toBeTranslatedList[i + 4];
                         var translation = _translationProvider.GetTranslatedContent(text, sourceLanguage, targetLanguage);
                         translationString += translation;
                         i += 4;
@@ -191,13 +208,25 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                 if (toBeTranslatedList[i].StartsWith("<")) {
                     translationString += toBeTranslatedList[i];
                 } else {
-                    var urlEncodedText = HttpUtility.UrlEncode(toBeTranslatedList[i]);
-                    var translation = _translationProvider.GetTranslatedContent(urlEncodedText, sourceLanguage, targetLanguage);
+                    var translation = _translationProvider.GetTranslatedContent(toBeTranslatedList[i], sourceLanguage, targetLanguage);
                     translationString += HttpUtility.HtmlEncode(translation);
                 }
             }
 
             return translationString;
+        }
+
+        #endregion
+
+        #region TranslateRelatedItems
+
+        /// <summary>
+        /// Translate the related items
+        /// </summary>
+        /// <param name="sourceItem">The source item</param>
+        /// <param name="targetItem">The target item</param>
+        private void TranslateRelatedItems(Item sourceItem, Item targetItem) {
+            // TODO: Implement this feature
         }
 
         #endregion
