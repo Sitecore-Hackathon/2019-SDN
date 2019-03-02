@@ -31,19 +31,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{D27C83
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{C780B955-0693-4A70-86B2-D120A939029D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.Data", "src\Foundation\Data\Hackathon.SDN.Foundation.Data\Hackathon.SDN.Foundation.Data.csproj", "{F25AB760-8C5C-4B48-AAB4-645368FE26F3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeeplConnector", "DeeplConnector", "{7917220B-5E4A-4277-8FC1-E49E7BB74E95}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.DeeplConnector", "src\Foundation\DeeplConnector\code\DeeplConnector\Hackathon.SDN.Foundation.DeeplConnector.csproj", "{1C484FBD-912E-43CF-8C47-809E9875984A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TranslationService", "TranslationService", "{B42CA49C-74E6-46B5-B5DF-768540C79EFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.TranslationService", "src\Foundation\TranslationService\Hackathon.SDN.Foundation.TranslationService.csproj", "{4471FDB0-DD5F-4F89-A5EA-6A8C97EA7E78}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TranslationRibbon", "TranslationRibbon", "{D5CF7AAB-4E50-44A8-B3EB-8FE9E6693528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Feature.TranslationRibbon", "src\Feature\TranslationRibbon\Hackathon.SDN.Feature.TranslationRibbon.csproj", "{25779351-9667-4568-AFE6-AAA1D411933D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.Data", "src\Foundation\Data\code\Hackathon.SDN.Foundation.Data.csproj", "{F25AB760-8C5C-4B48-AAB4-645368FE26F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.DeeplConnector", "src\Foundation\DeeplConnector\code\Hackathon.SDN.Foundation.DeeplConnector.csproj", "{1C484FBD-912E-43CF-8C47-809E9875984A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Foundation.TranslationService", "src\Foundation\TranslationService\code\Hackathon.SDN.Foundation.TranslationService.csproj", "{4471FDB0-DD5F-4F89-A5EA-6A8C97EA7E78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SDN.Feature.TranslationRibbon", "src\Feature\TranslationRibbon\code\Hackathon.SDN.Feature.TranslationRibbon.csproj", "{25779351-9667-4568-AFE6-AAA1D411933D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,12 +74,12 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D27C83D2-2EAF-4E44-A1ED-2B3C2EBB5854} = {DAFED8F5-6CBD-4384-AAD6-DC3BCCF24911}
 		{C780B955-0693-4A70-86B2-D120A939029D} = {4FDA1DCD-D33E-447E-91C1-F4AE818E2CF0}
-		{F25AB760-8C5C-4B48-AAB4-645368FE26F3} = {C780B955-0693-4A70-86B2-D120A939029D}
 		{7917220B-5E4A-4277-8FC1-E49E7BB74E95} = {4FDA1DCD-D33E-447E-91C1-F4AE818E2CF0}
-		{1C484FBD-912E-43CF-8C47-809E9875984A} = {7917220B-5E4A-4277-8FC1-E49E7BB74E95}
 		{B42CA49C-74E6-46B5-B5DF-768540C79EFC} = {4FDA1DCD-D33E-447E-91C1-F4AE818E2CF0}
-		{4471FDB0-DD5F-4F89-A5EA-6A8C97EA7E78} = {B42CA49C-74E6-46B5-B5DF-768540C79EFC}
 		{D5CF7AAB-4E50-44A8-B3EB-8FE9E6693528} = {17DD5718-6E13-4F2C-9738-B410396D4552}
+		{F25AB760-8C5C-4B48-AAB4-645368FE26F3} = {C780B955-0693-4A70-86B2-D120A939029D}
+		{1C484FBD-912E-43CF-8C47-809E9875984A} = {7917220B-5E4A-4277-8FC1-E49E7BB74E95}
+		{4471FDB0-DD5F-4F89-A5EA-6A8C97EA7E78} = {B42CA49C-74E6-46B5-B5DF-768540C79EFC}
 		{25779351-9667-4568-AFE6-AAA1D411933D} = {D5CF7AAB-4E50-44A8-B3EB-8FE9E6693528}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

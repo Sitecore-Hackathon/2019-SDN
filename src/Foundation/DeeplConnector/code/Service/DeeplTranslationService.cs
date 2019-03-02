@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using TranslationService.Interface;
 
 namespace DeeplConnector.Services {
+
     public class DeeplTranslationService : ITranslationProviderService {
 
         private readonly string DeeplAuthKey;

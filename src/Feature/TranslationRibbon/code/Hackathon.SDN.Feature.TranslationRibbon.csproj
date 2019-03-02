@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4471FDB0-DD5F-4F89-A5EA-6A8C97EA7E78}</ProjectGuid>
+    <ProjectGuid>{25779351-9667-4568-AFE6-AAA1D411933D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TranslationService</RootNamespace>
-    <AssemblyName>TranslationService</AssemblyName>
+    <RootNamespace>TranslationRibbon</RootNamespace>
+    <AssemblyName>TranslationRibbon</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,12 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Sitecore.Client, Version=12.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Sitecore.Client.9.1.0\lib\net471\Sitecore.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Kernel, Version=12.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Sitecore.Kernel.9.1.0\lib\net471\Sitecore.Kernel.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Sitecore.Kernel.9.1.0\lib\net471\Sitecore.Kernel.dll</HintPath>
     </Reference>
     <Reference Include="sysglobl" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
@@ -45,8 +49,13 @@
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions.Design" />
     <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,18 +64,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\ITranslationProviderService.cs" />
-    <Compile Include="Interface\ITranslationService.cs" />
-    <Compile Include="Models\ItemHasAlreadyTargetLanguageException.cs" />
-    <Compile Include="Models\LanguageDidNotExistException.cs" />
-    <Compile Include="Models\LanguageNotDifferentException.cs" />
-    <Compile Include="Models\LanguageMissingException.cs" />
-    <Compile Include="Models\ItemIsNullException.cs" />
+    <Compile Include="Models\NoContextItemFoundException.cs" />
+    <Compile Include="Models\LanguageCodeIsMissingException.cs" />
+    <Compile Include="Models\LanguageIsInvalidException.cs" />
+    <Compile Include="TranslateCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\TranslationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Foundation\TranslationService\code\Hackathon.SDN.Foundation.TranslationService.csproj">
+      <Project>{4471fdb0-dd5f-4f89-a5ea-6a8c97ea7e78}</Project>
+      <Name>TranslationService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
