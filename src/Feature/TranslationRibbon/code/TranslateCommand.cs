@@ -32,7 +32,7 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
                 includeSubItems
             };
 
-            ProgressBox.Execute("TranslateItem", "TranslateItem", TranslateItemAsyc, obj);
+            ProgressBox.Execute("TranslateItem", "TranslationRibbon_TranslateItem", TranslateItemAsyc, obj);
 
             var isJobDone = JobManager.GetJobs().FirstOrDefault(j => j.Name.Equals("TranslateItem") && j.Status.State == JobState.Running);
             if (isJobDone != null && !isJobDone.IsDone) {
@@ -99,6 +99,10 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
             }
 
             return sb.ToString();
+        }
+
+        public void CheckTranslationStatus() {
+            // Empty method, needed because of a known sitecore bug
         }
     }
 }
