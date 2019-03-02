@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using AutoFixture.Xunit2;
-using Hackathon.SDN.Foundation.DeeplConnector;
 using Hackathon.SDN.Foundation.DeeplConnector.Models;
 using FluentAssertions;
 using Hackathon.SDN.Foundation.DeeplConnector.Tests.Models;

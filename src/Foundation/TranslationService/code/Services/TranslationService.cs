@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Hackathon.SDN.Foundation.TranslationService.Interface;
-using Hackathon.SDN.Foundation.TranslationService.Models;
+using Hackathon.SDN.Foundation.TranslationService.Exceptions;
+using Hackathon.SDN.Foundation.TranslationService.Providers;
 using Sitecore.Configuration;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
@@ -10,7 +10,7 @@ using Sitecore.Globalization;
 using Sitecore.SecurityModel;
 using Sitecore.StringExtensions;
 
-namespace Hackathon.SDN.Foundation.TranslationService.Service {
+namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
     public class TranslationService : ITranslationService {
 
@@ -18,15 +18,14 @@ namespace Hackathon.SDN.Foundation.TranslationService.Service {
 
         private IEnumerable<Language> _allAvailableLanguages;
 
-        private readonly ITranslationProviderService _translationProviderService;
+        private readonly ITranslationProvider _translationProvider;
 
-        public TranslationService(ITranslationProviderService translationProviderService) {
+        public TranslationService(ITranslationProvider translationProvider) {
             _masterDb = Factory.GetDatabase("master");
             _allAvailableLanguages = _masterDb.GetLanguages();
-            _translationProviderService = translationProviderService;
+            _translationProvider = translationProvider;
         }
-
-
+        
         public string TranslateItem(Item sourceItem, Language targetLanguage, bool includeRelatedItems, bool includeSubItems) {
 
             // Check input
@@ -144,9 +143,9 @@ namespace Hackathon.SDN.Foundation.TranslationService.Service {
 
                     string translation;
                     if (FieldTypeManager.GetField(itemField) is TextField) {
-                        translation = _translationProviderService.GetTranslatedContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
+                        translation = _translationProvider.GetTranslatedContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
                     } else if (FieldTypeManager.GetField(itemField) is HtmlField) {
-                        translation = _translationProviderService.GetTranslatedContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
+                        translation = _translationProvider.GetTranslatedContent(itemField.Value, sourceItem.Language.CultureInfo.TwoLetterISOLanguageName, targetItem.Language.CultureInfo.TwoLetterISOLanguageName);
                     } else {
                         continue;
                     }

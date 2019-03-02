@@ -1,5 +1,5 @@
-﻿namespace Hackathon.SDN.Foundation.TranslationService.Interface {
-    public interface ITranslationProviderService {
+﻿namespace Hackathon.SDN.Foundation.TranslationService.Providers {
+    public interface ITranslationProvider {
 
         /// <summary>
         /// Get the translated content
