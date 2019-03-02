@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using Hackathon.SDN.Foundation.TranslationService.Exceptions;
+using Hackathon.SDN.Foundation.TranslationService.Infrastructure.Pipelines.FieldShouldBeTranslated;
 using Hackathon.SDN.Foundation.TranslationService.Providers;
 using Sitecore.Configuration;
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
 using Sitecore.Globalization;
+using Sitecore.Pipelines;
 using Sitecore.SecurityModel;
 using Sitecore.StringExtensions;
 
@@ -121,13 +123,13 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
             using (new EditContext(targetItem)) {
 
                 foreach (Field itemField in sourceItem.Fields) {
-                    if (IsStandardTempalteField(itemField)) {
-                        continue; // Skip Sitecore standard fields
+                    if (!FieldShouldBeTranslated(itemField)) {
+                        continue;
                     }
 
-                    if (itemField.Value.IsNullOrEmpty()) {
-                        continue; // skip empty fields
-                    }
+                    //if (itemField.Value.IsNullOrEmpty()) {
+                    //    continue; // skip empty fields
+                    //}
 
                     string translation;
                     if (FieldTypeManager.GetField(itemField) is TextField) {
@@ -146,17 +148,13 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
             }
         }
+        
+        private static bool FieldShouldBeTranslated(Field field) {
+            var args = new FieldShouldBeTranslatedPipelineArgs(field);
 
-        /// <summary>
-        /// Returns if the current field is a field of the Sitecore standard template
-        /// </summary>
-        /// <param name="field">The current field</param>
-        /// <returns>If the field is part of the Sitecore standard template</returns>
-        public static bool IsStandardTempalteField(Field field) {
-            var template = Sitecore.Data.Managers.TemplateManager.GetTemplate(Settings.DefaultBaseTemplate, field.Database);
-            Sitecore.Diagnostics.Assert.IsNotNull(template, "template");
+            CorePipeline.Run("fieldShouldBeTranslated", args, "contentTranslator");
 
-            return template.ContainsField(field.ID);
+            return args.ShouldBeTranslated;
         }
 
         /// <summary>
