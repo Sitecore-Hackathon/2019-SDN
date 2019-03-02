@@ -1,5 +1,8 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Web.UI;
+using Sitecore.Configuration;
+using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Globalization;
 using Sitecore.Shell.Framework.Commands;
@@ -8,6 +11,15 @@ using Sitecore.Web.UI.WebControls.Ribbons;
 
 namespace Hackathon.SDN.Feature.TranslationRibbon {
     public class TranslationPanel : RibbonPanel {
+
+        private readonly IEnumerable<Language> _allAvailableLanguages;
+
+        private readonly Database _masterDb;
+
+        public TranslationPanel() {
+            _masterDb = Factory.GetDatabase("master");
+            _allAvailableLanguages = _masterDb.GetLanguages();
+        }
 
         public override void Render(HtmlTextWriter output, Ribbon ribbon, Item button, CommandContext context) {
             var sb = new StringBuilder();
@@ -21,12 +33,8 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
             sb.Append($"<p style=\"padding-top: 6px; padding-bottom: 6px;\">{Translate.Text("StartTranslation")}</p>");
             sb.Append("<select id=\"translation-languages\" style=\"width: 100%;\">");
 
-            if (context.Items.Length == 1) {
-                Item item = context.Items[0];
-                var languages = item.Languages;
-                foreach (var language in languages) {
-                    sb.Append($"<option value=\"{language.Name.ToLower()}\">{language.CultureInfo.DisplayName}</option>");
-                }
+            foreach (var language in _allAvailableLanguages) {
+                sb.Append($"<option value=\"{language.Name.ToLower()}\">{language.CultureInfo.DisplayName}</option>");
             }
 
             sb.Append("</select></div></div>");
