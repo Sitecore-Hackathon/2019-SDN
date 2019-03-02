@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Hackathon.SDN.Feature.TranslationRibbon.Models;
+using Hackathon.SDN.Feature.TranslationRibbon.Exceptions;
 using Hackathon.SDN.Foundation.TranslationService.Exceptions;
 using Hackathon.SDN.Foundation.TranslationService.Factories;
 using Hackathon.SDN.Foundation.TranslationService.Models;
@@ -60,10 +60,9 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
 
         private Language GetTargetLanguage(CommandContext context) {
             var languageCode = context.Parameters["language"];
-            if (string.IsNullOrEmpty(languageCode)) throw new Exception("language parameter ist empty");
+            if (string.IsNullOrEmpty(languageCode)) throw new LanguageMissingException();
 
-            Language language;
-            Language.TryParse(languageCode, out language);
+            Language.TryParse(languageCode, out Language language);
 
             if (language == null) throw new LanguageIsInvalidException();
 
@@ -90,13 +89,13 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
 
         private string GetResultOutput(TranslationResult result) {
             var sb = new StringBuilder();
-            sb.AppendLine("Translation progress finished, result:");
-            sb.AppendLine("Success: " + result.SuccessfullyTranslated);
-            sb.AppendLine("Skipped: " + result.Skipped);
-            sb.AppendLine("Errors: " + result.OccuredErrors);
+            sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Headline"));
+            sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Success") + result.SuccessfullyTranslated);
+            sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Skipped") + result.Skipped);
+            sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Errors") + result.OccuredErrors);
 
             foreach (ID itemId in result.ItemsWithErrors) {
-                sb.AppendLine("ID of item with failed translation: " + itemId);
+                sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Errors_Description") + itemId);
             }
 
             return sb.ToString();
