@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using Hackathon.SDN.Foundation.TranslationService.Exceptions;
 using Hackathon.SDN.Foundation.TranslationService.Infrastructure.Pipelines.FieldShouldBeTranslated;
+using Hackathon.SDN.Foundation.TranslationService.Models;
 using Hackathon.SDN.Foundation.TranslationService.Providers;
 using Sitecore.Configuration;
 using Sitecore.Data;
@@ -43,7 +43,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <exception cref="ItemIsNullException">Throw when item is null</exception>
         /// <exception cref="LanguageMissingException">Throw when target language is not set</exception>
         /// <exception cref="LanguageNotDifferentException">Throw when target language is the same as source language</exception>
-        public string TranslateItem(Item sourceItem, Language targetLanguage, bool includeSubItems) {
+        public TranslationResult TranslateItem(Item sourceItem, Language targetLanguage, bool includeSubItems) {
 
             // Check input
             if (sourceItem == null) {
@@ -60,12 +60,11 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
             var targetItem = GetTargetItemInLanguage(sourceItem.ID, targetLanguage);
 
-            var sb = new StringBuilder();
+            var result = new TranslationResult();
 
-            TranslateItemRecursive(sourceItem, targetItem, includeSubItems, sb);
+            TranslateItemRecursive(sourceItem, targetItem, includeSubItems, result);
 
-            return Translate.Text("TheItem") + " \"" + sourceItem.DisplayName + "\" " +
-                   Translate.Text("GotSuccessfullyTranslatedToLanguage") + " " + targetLanguage.CultureInfo.DisplayName;
+            return result;
         }
 
         #region Translate current item
@@ -76,22 +75,22 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// <param name="sourceItem"></param>
         /// <param name="targetItem"></param>
         /// <param name="includeSubItems"></param>
-        /// <param name="sb"></param>
-        private void TranslateItemRecursive(Item sourceItem, Item targetItem, bool includeSubItems, StringBuilder sb) {
+        /// <param name="result">The translation result</param>
+        private void TranslateItemRecursive(Item sourceItem, Item targetItem, bool includeSubItems, TranslationResult result) {
             try {
                 PrepareTargetItem(targetItem);
 
                 TranslateItemTextFields(sourceItem, targetItem);
 
-                sb.AppendLine($"Item {sourceItem.DisplayName} translated successfully.");
+                result.SuccessfullyTranslated++;
             } catch (ItemHasAlreadyTargetLanguageException) {
-                sb.AppendLine($"Item {sourceItem.DisplayName} skipped because it has already a language version.");
+                result.Skipped++;
             } catch (ItemIsNullException) {
-                sb.AppendLine($"Item {sourceItem.DisplayName} not translated because item could not be loaded.");
-            } catch (LanguageDidNotExistException) {
-                sb.AppendLine($"Item {sourceItem.DisplayName} not translated because of incorrect language.");
+                result.OccuredErrors++;
+                result.ItemsWithErrors.Add(sourceItem.ID);
             } catch (TranslationFailureException) {
-                sb.AppendLine($"Item {sourceItem.DisplayName} not translated because of a translation failure.");
+                result.OccuredErrors++;
+                result.ItemsWithErrors.Add(sourceItem.ID);
             }
 
             // Check if sub items should be translated too
@@ -101,13 +100,11 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                     try {
                         targetChildItem = GetTargetItemInLanguage(childSourceItem.ID, targetItem.Language);
                     } catch (ItemIsNullException) {
-                        sb.AppendLine($"Item {childSourceItem.DisplayName} not translated because item could not be loaded.");
-                        continue;
-                    } catch (LanguageDidNotExistException) {
-                        sb.AppendLine($"Item {childSourceItem.DisplayName} not translated because of incorrect language.");
+                        result.OccuredErrors++;
+                        result.ItemsWithErrors.Add(childSourceItem.ID);
                         continue;
                     }
-                    TranslateItemRecursive(childSourceItem, targetChildItem, true, sb);
+                    TranslateItemRecursive(childSourceItem, targetChildItem, true, result);
                 }
             }
         }

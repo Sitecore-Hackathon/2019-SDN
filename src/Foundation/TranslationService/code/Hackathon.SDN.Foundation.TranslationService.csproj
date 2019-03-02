@@ -87,6 +87,7 @@
     <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\ShouldBeTranslatedProperty.cs" />
     <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\IsFieldFromStandardTemplate.cs" />
     <Compile Include="Infrastructure\Pipelines\FieldShouldBeTranslated\FieldShouldBeTranslatedPipelineArgs.cs" />
+    <Compile Include="Models\TranslationResult.cs" />
     <Compile Include="Providers\ITranslationProvider.cs" />
     <Compile Include="Services\ITranslationService.cs" />
     <Compile Include="Exceptions\ItemHasAlreadyTargetLanguageException.cs" />
