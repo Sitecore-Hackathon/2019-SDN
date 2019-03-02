@@ -20,7 +20,7 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
 
                 var sourceItem = GetSourceItem(context);
 
-                var result = translationService.TranslateItem(sourceItem, targetLanguage, false, includeSubItems);
+                var result = translationService.TranslateItem(sourceItem, targetLanguage, includeSubItems);
 
                 Alert(result);
             } catch (Exception ex) {

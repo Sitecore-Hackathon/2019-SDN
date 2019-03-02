@@ -36,10 +36,9 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
         /// </summary>
         /// <param name="sourceItem">The source item</param>
         /// <param name="targetLanguage">The target language</param>
-        /// <param name="includeRelatedItems">returns if the related items should be translated also</param>
         /// <param name="includeSubItems">returns if the sub items should be translated also</param>
         /// <returns></returns>
-        public string TranslateItem(Item sourceItem, Language targetLanguage, bool includeRelatedItems, bool includeSubItems) {
+        public string TranslateItem(Item sourceItem, Language targetLanguage, bool includeSubItems) {
 
             // Check input
             if (sourceItem == null) {
@@ -56,15 +55,22 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
             var targetItem = GetTargetItemInLanguage(sourceItem.ID, targetLanguage);
 
-            TranslateItem(sourceItem, targetItem, includeSubItems, includeRelatedItems);
+            TranslateItem(sourceItem, targetItem, includeSubItems);
 
             return Translate.Text("TheItem") + " \"" + sourceItem.DisplayName + "\" " +
                    Translate.Text("GotSuccessfullyTranslatedToLanguage") + " " + targetLanguage.CultureInfo.DisplayName;
         }
 
-        #region Translate curren item
+        #region Translate current item
 
-        private void TranslateItem(Item sourceItem, Item targetItem, bool includeSubItems, bool includeRelatedItems) {
+        /// <summary>
+        /// Translate the item
+        /// </summary>
+        /// <param name="sourceItem"></param>
+        /// <param name="targetItem"></param>
+        /// <param name="includeSubItems"></param>
+        /// <param name="includeRelatedItems"></param>
+        private void TranslateItem(Item sourceItem, Item targetItem, bool includeSubItems) {
 
             PrepareTargetItem(targetItem);
 
@@ -75,12 +81,8 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                 foreach (Item childSourceItem in sourceItem.Children) {
                     var targetChildItem = GetTargetItemInLanguage(childSourceItem.ID, targetItem.Language);
 
-                    TranslateItem(childSourceItem, targetChildItem, true, includeRelatedItems);
+                    TranslateItem(childSourceItem, targetChildItem, true);
                 }
-            }
-
-            if (includeRelatedItems) {
-                TranslateRelatedItems(sourceItem, targetItem);
             }
         }
 
@@ -206,19 +208,6 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
             }
 
             return translationString;
-        }
-
-        #endregion
-
-        #region TranslateRelatedItems
-
-        /// <summary>
-        /// Translate the related items
-        /// </summary>
-        /// <param name="sourceItem">The source item</param>
-        /// <param name="targetItem">The target item</param>
-        private void TranslateRelatedItems(Item sourceItem, Item targetItem) {
-            // TODO: Implement this feature
         }
 
         #endregion
