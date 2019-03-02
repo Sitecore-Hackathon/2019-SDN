@@ -128,14 +128,31 @@ All other text fields will be translated per default, though you can easily exte
 ```csharp
 public class FieldShouldBeTranslatedPipelineArgs : PipelineArgs {
 
-      public Field Field { get; set; }
+    public Field Field { get; set; }
 
-      public bool ShouldBeTranslated { get; set; } = true;
+    public bool ShouldBeTranslated { get; set; } = true;
 
-  }
+}
 ```
 
-To disable translation of a field, simply set the `ShouldBeTranslated` property to false.
+To disable translation of a field, simply set the `ShouldBeTranslated` property to false:
+```csharp
+namespace YourAssembly {
+
+    public class YourCheckClass {
+
+        public void Process(FieldShouldBeTranslatedPipelineArgs args) {
+            var myCheck = false;
+
+            if (!myCheck) {
+                args.ShouldBeTranslated = false;
+            }
+        }
+
+    }
+
+}
+```
 
 To add a custom check, simple add a processor to the `fieldShouldBeTranslated` pipeline:
 ```xml
