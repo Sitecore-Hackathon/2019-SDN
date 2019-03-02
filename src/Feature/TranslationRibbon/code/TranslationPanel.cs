@@ -29,8 +29,7 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
                 }
             }
 
-            sb.Append("</select></div>");
-            sb.Append("</div>");
+            sb.Append("</select></div></div>");
 
             var htmlOutput = sb.ToString();
 
