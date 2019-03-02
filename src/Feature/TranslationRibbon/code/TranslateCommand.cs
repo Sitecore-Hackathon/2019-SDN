@@ -1,29 +1,26 @@
 ﻿using System;
 using System.Linq;
 using Hackathon.SDN.Feature.TranslationRibbon.Models;
-using Hackathon.SDN.Foundation.TranslationService.Interface;
+using Hackathon.SDN.Foundation.TranslationService.Factories;
+using Hackathon.SDN.Foundation.TranslationService.Services;
 using Sitecore;
 using Sitecore.Data.Items;
 using Sitecore.Globalization;
 using Sitecore.Shell.Framework.Commands;
 
 namespace Hackathon.SDN.Feature.TranslationRibbon {
+
     public class TranslateCommand : Command {
-
-        private readonly ITranslationService _translationService;
-
-
-        public TranslateCommand(ITranslationService translationService) {
-            _translationService = translationService;
-        }
 
         public override void Execute(CommandContext context) {
             try {
+                var translationService = TranslationServiceFactory.Create();
+
                 var targetLanguage = GetTargetLanguage(context);
 
                 var sourceItem = GetSourceItem(context);
 
-                var result = _translationService.TranslateItem(sourceItem, targetLanguage, false, false);
+                var result = translationService.TranslateItem(sourceItem, targetLanguage, false, false);
 
                 Alert(result);
             } catch (Exception ex) {

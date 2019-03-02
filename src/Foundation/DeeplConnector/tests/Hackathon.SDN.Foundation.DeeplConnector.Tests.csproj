@@ -122,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\code\Hackathon.SDN.Foundation.DeeplConnector.csproj">
-      <Project>{1C484FBD-912E-43CF-8C47-809E9875984A}</Project>
+      <Project>{2863609d-51eb-400c-aecf-d51bc2812f60}</Project>
       <Name>Hackathon.SDN.Foundation.DeeplConnector</Name>
     </ProjectReference>
   </ItemGroup>

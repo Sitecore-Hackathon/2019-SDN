@@ -76,18 +76,21 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Config\Include\Foundation\Foundation.TranslationService.config" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\ITranslationProviderService.cs" />
-    <Compile Include="Interface\ITranslationService.cs" />
-    <Compile Include="Models\ItemHasAlreadyTargetLanguageException.cs" />
-    <Compile Include="Models\ItemIsNullException.cs" />
-    <Compile Include="Models\LanguageDidNotExistException.cs" />
-    <Compile Include="Models\LanguageMissingException.cs" />
-    <Compile Include="Models\LanguageNotDifferentException.cs" />
+    <Compile Include="Exceptions\TranslationFailureException.cs" />
+    <Compile Include="Factories\TranslationServiceFactory.cs" />
+    <Compile Include="Providers\ITranslationProvider.cs" />
+    <Compile Include="Services\ITranslationService.cs" />
+    <Compile Include="Exceptions\ItemHasAlreadyTargetLanguageException.cs" />
+    <Compile Include="Exceptions\ItemIsNullException.cs" />
+    <Compile Include="Exceptions\LanguageDidNotExistException.cs" />
+    <Compile Include="Exceptions\LanguageMissingException.cs" />
+    <Compile Include="Exceptions\LanguageNotDifferentException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\TranslationService.cs" />
+    <Compile Include="Services\TranslationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
