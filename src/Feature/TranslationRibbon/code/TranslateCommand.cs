@@ -70,13 +70,13 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
 
         private string GetResultOutput(TranslationResult result) {
             var sb = new StringBuilder();
-            sb.AppendLine("Translation progress finished, result:");
-            sb.AppendLine("Success: " + result.SuccessfullyTranslated);
-            sb.AppendLine("Skipped: " + result.Skipped);
-            sb.AppendLine("Errors: " + result.OccuredErrors);
+            sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Headline"));
+            sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Success") + result.SuccessfullyTranslated);
+            sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Skipped") + result.Skipped);
+            sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Errors") + result.OccuredErrors);
 
             foreach (ID itemId in result.ItemsWithErrors) {
-                sb.AppendLine("ID of item with failed translation: " + itemId);
+                sb.AppendLine(Translate.Text("TranslationRibbon_ResultDialog_Errors_Description") + itemId);
             }
 
             return sb.ToString();
