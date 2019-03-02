@@ -14,6 +14,7 @@ using Sitecore.Web.UI.WebControls.Ribbons;
 
 namespace Hackathon.SDN.Feature.TranslationRibbon {
 
+    // ReSharper disable once UnusedMember.Global
     public class TranslationPanel : RibbonPanel {
 
         private readonly ITranslationProvider _translationProvider;

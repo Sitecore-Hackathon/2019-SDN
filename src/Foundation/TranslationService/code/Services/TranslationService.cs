@@ -18,6 +18,7 @@ using Sitecore.StringExtensions;
 
 namespace Hackathon.SDN.Foundation.TranslationService.Services {
 
+    // ReSharper disable once UnusedMember.Global
     public class TranslationService : ITranslationService {
 
         private readonly Database _masterDb;
