@@ -1,7 +1,12 @@
-﻿namespace DeeplConnector {
+﻿using Newtonsoft.Json;
+
+namespace DeeplConnector.Models {
+
     public class Translation {
 
-        public string Detected_source_language { get; set; }
+        [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
+
     }
+
 }
