@@ -68,6 +68,7 @@
     <None Include="app.config" />
     <None Include="App_Config\Include\Foundation\Foundation.DeeplConnector.config" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\TranslationService\code\Hackathon.SDN.Foundation.TranslationService.csproj">
@@ -75,5 +76,6 @@
       <Name>Hackathon.SDN.Foundation.TranslationService</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
