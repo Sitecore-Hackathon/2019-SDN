@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Hackathon.SDN.Feature.TranslationRibbon.Exceptions;
 using Hackathon.SDN.Foundation.TranslationService.Exceptions;
 using Hackathon.SDN.Foundation.TranslationService.Factories;
@@ -12,7 +13,6 @@ using Sitecore.Globalization;
 using Sitecore.Jobs;
 using Sitecore.Shell.Framework.Commands;
 using Sitecore.Shell.Applications.Dialogs.ProgressBoxes;
-using Sitecore.Web.UI.Sheer;
 
 namespace Hackathon.SDN.Feature.TranslationRibbon {
 
@@ -22,23 +22,29 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
         public string Result { get; set; }
 
         public override void Execute(CommandContext context) {
-            var targetLanguage = GetTargetLanguage(context);
-            var includeSubItems = GetIncludeSubItems(context);
-            var sourceItem = GetSourceItem(context);
+            try {
+                var targetLanguage = GetTargetLanguage(context);
+                var includeSubItems = GetIncludeSubItems(context);
+                var sourceItem = GetSourceItem(context);
 
-            var obj = new[] {
-                (object) sourceItem,
-                targetLanguage,
-                includeSubItems
-            };
+                var obj = new[]
+                {
+                    (object) sourceItem,
+                    targetLanguage,
+                    includeSubItems
+                };
 
-            ProgressBox.Execute("TranslateItem", "TranslationRibbon_TranslateItem", TranslateItemAsyc, obj);
+                ProgressBox.Execute("TranslateItem", "TranslationRibbon_TranslateItem", TranslateItemAsyc, obj);
 
-            var isJobDone = JobManager.GetJobs().FirstOrDefault(j => j.Name.Equals("TranslateItem") && j.Status.State == JobState.Running);
-            if (isJobDone != null && !isJobDone.IsDone) {
-                SheerResponse.Timer("CheckTranslationStatus", 100);
-            } else {
+                var job = JobManager.GetJobs().FirstOrDefault(j => j.Name.Equals("TranslateItem"));
+                while (job.Status.State != JobState.Finished) {
+                    Thread.Sleep(100); // wait until job is finished
+                }
+
                 Alert(Result);
+
+            } catch (Exception) {
+                Result = Translate.Text("TranslationRibbon_GeneralErrorInfo");
             }
         }
 
@@ -99,10 +105,6 @@ namespace Hackathon.SDN.Feature.TranslationRibbon {
             }
 
             return sb.ToString();
-        }
-
-        public void CheckTranslationStatus() {
-            // Empty method, needed because of a known sitecore bug
         }
     }
 }

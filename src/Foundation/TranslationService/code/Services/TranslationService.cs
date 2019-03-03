@@ -88,18 +88,18 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                 TranslateItemTextFields(sourceItem, targetItem);
 
                 result.SuccessfullyTranslated++;
-                Alert("Item translated successfully");
+                Alert($"Item '{sourceItem.DisplayName}' translated successfully");
             } catch (ItemHasAlreadyTargetLanguageException) {
                 result.Skipped++;
-                Alert("Item skipped");
+                Alert($"Item '{sourceItem.DisplayName}' skipped");
             } catch (ItemIsNullException) {
                 result.OccuredErrors++;
                 result.ItemsWithErrors.Add(sourceItem.ID);
-                Alert("Error occured");
+                Alert($"Error occured at item '{sourceItem.DisplayName}'");
             } catch (TranslationFailureException) {
                 result.OccuredErrors++;
                 result.ItemsWithErrors.Add(sourceItem.ID);
-                Alert("Error occured");
+                Alert($"Error occured at item '{sourceItem.DisplayName}'");
             }
 
             // Check if sub items should be translated too
@@ -111,7 +111,7 @@ namespace Hackathon.SDN.Foundation.TranslationService.Services {
                     } catch (ItemIsNullException) {
                         result.OccuredErrors++;
                         result.ItemsWithErrors.Add(childSourceItem.ID);
-                        Alert("Error occured");
+                        Alert($"Error occured at item '{sourceItem.DisplayName}'");
                         continue;
                     }
                     TranslateItemRecursive(childSourceItem, targetChildItem, true, result);
