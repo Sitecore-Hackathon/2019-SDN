@@ -18,9 +18,10 @@ In order to use the deepl translation provider, you'll need an API key. You can 
 
 Provide detailed instructions on how to install the module, and include screenshots where necessary.
 
-1. Use the Sitecore Installation wizard to install the [package](#link-to-package)
-2. ???
-3. Profit
+1. Use the Sitecore Installation wizard to install the [package](../sc.package/ContentTranslator.zip?raw=true)
+2. Optional: Add your own deepl API key (see [Configuration](#configuration) section)
+3. ???
+4. Profit
 
 ## Usage
 
