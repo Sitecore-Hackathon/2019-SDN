@@ -24,19 +24,31 @@ Provide detailed instructions on how to install the module, and include screensh
 
 ## Usage
 
-Provide documentation  about your module, how do the users use your module, where are things located, what do icons mean, are there any secret shortcuts etc.
+After installation, the content translator module is visible in the versions ribbon of the content editor:
 
-Please include screenshots where necessary. You can add images to the `./images` folder and then link to them from your documentation:
+![Placement in the versions tab](images/versions-tab.png?raw=true "Placement in the versions tab")
 
-![Hackathon Logo](images/hackathon.png?raw=true "Hackathon Logo")
+To use the model, navigate to the item you want to translate and open it. It's important to have to correct language version opened as this is the source for our translation.
 
-You can embed images of different formats too:
+If that's done, you can select the language you want to translate to over the dropdown field. Please keep in mind that you can only translate into languages that exist on your sitecore instance (`/sitecore/system/Languages`). If the installed translation provider doesn't support the language or it's the opened language, it's not possible to select it.
 
-![Deal With It](images/deal-with-it.gif?raw=true "Deal With It")
+![Opened language selection](images/dropdown-open.png?raw=true "Opened language selection")
 
-And you can embed external images too:
+You can start the translation by clicking the "Start translation" button. In that way, it only translates the item itself. If you like to translate the item itself with all its children, you can click the little arrow. You're now able to click on "Translate item (including subitems)" to do that.
 
-![Random](https://placeimg.com/480/240/any "Random")
+![Opened translation menu](images/opened-menu.png?raw=true "Opened translation menu")
+
+Right after the click, our module starts translating the items by using the installed translation provider. In our example, we will translate this example item:
+
+![Example item](images/example-item.png?raw=true "Example item")
+
+If everything worked as expected, you should see an summary of the changed items:
+
+![Summary message](images/success-message.png?raw=true "Summary message")
+
+The translation is then created as new version for the selected language.
+
+![Translated item](images/created-version.png?raw=true "Translated item")
 
 ## Configuration
 
