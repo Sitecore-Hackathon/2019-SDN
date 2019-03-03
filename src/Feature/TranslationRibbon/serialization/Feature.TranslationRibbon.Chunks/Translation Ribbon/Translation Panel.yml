@@ -2,7 +2,7 @@
 ID: "5d1478cf-4d4a-4f50-948a-a2453fab098c"
 Parent: "8ce4a991-aa4c-43d2-ab3d-34cc3cd95f09"
 Template: "3619f992-4177-4124-89dd-dabfc2baf6bb"
-Path: /sitecore/content/Applications/Content Editor/Ribbons/Chunks/Translation/Translation Panel
+Path: /sitecore/content/Applications/Content Editor/Ribbons/Chunks/Translation Ribbon/Translation Panel
 DB: core
 SharedFields:
 - ID: "c78d9b41-ffeb-402d-93e8-e1270d8bb787"
